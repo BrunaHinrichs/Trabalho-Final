@@ -3,6 +3,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 
+//Estive aqui e dei uma cagadinha
 
 public class Mines extends JFrame {
 
