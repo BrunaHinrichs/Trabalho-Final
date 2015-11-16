@@ -26,6 +26,11 @@ public class Board extends JPanel {
 	private final int DRAW_MARK = 11;
 	private final int DRAW_WRONG_MARK = 12;
 
+	//	Deixara de ser final ou sera inicializado posteriormente.
+	//	Novos valores conforme o nivel de dificuldade:
+	// 		Iniciante:		9x9;	10 minas
+	// 		Intermediario:	16x16;	40 minas
+	// 		Expert:			30x16;	99 minas
 	private final int N_MINES = 40;
 	private final int N_ROWS = 16;
 	private final int N_COLS = 16;
@@ -58,6 +63,11 @@ public class Board extends JPanel {
 
 	private void newGame() {
 
+		// Antes dequalquer inicializacao, devemos obter o nome do
+		// jogador e o nivel de dificuldade. Isso pode ser feito
+		// com uma pop-up ou na mesma tela, antes de desenhar o
+		// campo.
+
 		Random random;
 		int current_col;
 
@@ -88,7 +98,7 @@ public class Board extends JPanel {
 				field[position] = COVERED_MINE_CELL;
 				i++;
 
-				if (current_col > 0) { 
+				if (current_col > 0) {
 					cell = position - 1 - N_COLS;
 					if (cell >= 0)
 						if (field[cell] != COVERED_MINE_CELL)
@@ -208,6 +218,13 @@ public class Board extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g) {
+
+		// Nesta funcao podemos usar statusbar.setText() para
+		// escrever o tempo corrido de jogo a cada atualizacao.
+		// Como tambem e aqui onde o programa detecta se o jogo
+		// terminou, essa funcao tambem ficaria responsavel por
+		// chamar a funcao que ira colher os dados do final da 
+		// partida e escrever no .dat
 
 		int cell = 0;
 		int uncover = 0;
