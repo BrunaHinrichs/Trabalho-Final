@@ -1,15 +1,20 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.JOptionPane;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements ActionListener{
 
 	private final int NUM_IMAGES = 13;
 	private final int CELL_SIZE = 15;
@@ -35,6 +40,15 @@ public class Board extends JPanel {
 	private final int N_ROWS = 16;
 	private final int N_COLS = 16;
 
+	// E necessario um timer para atualizar o relogio em intervalos
+	// regulares de tempo.
+	private final int DELAY = 25;
+	private Timer timer;
+	private long beginTime;
+	private long time;
+
+	private String nickname;
+
 	private int[] field;
 	private boolean inGame;
 	private int mines_left;
@@ -56,10 +70,19 @@ public class Board extends JPanel {
 
 		setDoubleBuffered(true);
 
+		timer = new Timer(DELAY, this);
+		timer.start();
+
 		addMouseListener(new MinesAdapter());
 		newGame();
 	}
 
+	// atualiza o cronometro acada intervalo de tempo
+	public void actionPerformed(ActionEvent e) {
+	
+		time=System.currentTimeMillis()-beginTime;
+	
+	}
 
 	private void newGame() {
 
@@ -67,6 +90,10 @@ public class Board extends JPanel {
 		// jogador e o nivel de dificuldade. Isso pode ser feito
 		// com uma pop-up ou na mesma tela, antes de desenhar o
 		// campo.
+
+		nickname = JOptionPane.showInputDialog("Nickname: ");
+		if(nickname==null)
+			System.exit(0);
 
 		Random random;
 		int current_col;
@@ -86,7 +113,6 @@ public class Board extends JPanel {
 			field[i] = COVER_FOR_CELL;
 
 		statusbar.setText(Integer.toString(mines_left));
-
 
 		i = 0;
 		while (i < N_MINES) {
@@ -139,6 +165,9 @@ public class Board extends JPanel {
 				}
 			}
 		}
+
+		// Coleta o tempo inicial do jogo
+		beginTime = System.currentTimeMillis();
 	}
 
 
@@ -265,9 +294,11 @@ public class Board extends JPanel {
 
 		if (uncover == 0 && inGame) {
 			inGame = false;
-			statusbar.setText("Game won");
+			statusbar.setText("Game won: " + (time/1000.0) + "s");
+
 		} else if (!inGame)
-			statusbar.setText("Game lost");
+			statusbar.setText("Game lost: " + (time/1000.0) + "s");
+
 	}
 
 

@@ -11,7 +11,7 @@ public class Mines extends JFrame {
 	private final int FRAME_HEIGHT = 290;
 
 	private final JLabel statusbar;
-	
+
 	public Mines() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
