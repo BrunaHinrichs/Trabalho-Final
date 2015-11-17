@@ -36,9 +36,9 @@ public class Board extends JPanel implements ActionListener{
 	// 		Iniciante:		9x9;	10 minas
 	// 		Intermediario:	16x16;	40 minas
 	// 		Expert:			30x16;	99 minas
-	private final int N_MINES = 40;
-	private final int N_ROWS = 16;
-	private final int N_COLS = 16;
+	private int N_MINES = 40;
+	private int N_ROWS = 16;
+	private int N_COLS = 16;
 
 	// E necessario um timer para atualizar o relogio em intervalos
 	// regulares de tempo.
@@ -91,9 +91,54 @@ public class Board extends JPanel implements ActionListener{
 		// com uma pop-up ou na mesma tela, antes de desenhar o
 		// campo.
 
-		nickname = JOptionPane.showInputDialog("Nickname: ");
-		if(nickname==null)
+		nickname = JOptionPane.showInputDialog(this, "Nickname: ", "Minesweeper", JOptionPane.PLAIN_MESSAGE);
+		if(nickname==null){
+
 			System.exit(0);
+
+		}
+
+		Object[] levels = {"Beginner", "Intermediate", "Expert"};
+
+		String level = String.valueOf(JOptionPane.showInputDialog(
+														this, "Level: ",
+														"Minesweeper",
+														JOptionPane.PLAIN_MESSAGE,
+														null, levels,
+														levels[0]));
+
+		if (level.equals("Beginner")) {
+
+			N_MINES = 10;
+			N_ROWS = 9;
+			N_COLS = 9;
+			Mines.setFrameWidth(145);
+			Mines.setFrameHeight(175);
+
+		} else if (level.equals("Intermediate")) {
+
+			N_MINES = 40;
+			N_ROWS = 16;
+			N_COLS = 16;
+			Mines.setFrameWidth(250);
+			Mines.setFrameHeight(290);
+
+		} else if (level.equals("Expert")) {
+
+			N_MINES = 99;
+			N_ROWS = 16;
+			N_COLS = 30;
+			Mines.setFrameWidth(460);
+			Mines.setFrameHeight(290);
+
+		} else {
+
+			System.exit(0);
+
+		}
+
+		// Tem que da um resize nesse cara ai... Aceito sugestoes...
+		//Mines.setSize(Mines.FRAME_WIDTH, Mines.FRAME_HEIGHT);
 
 		Random random;
 		int current_col;
@@ -103,7 +148,6 @@ public class Board extends JPanel implements ActionListener{
 		int cell = 0;
 
 		random = new Random();
-		inGame = true;
 		mines_left = N_MINES;
 
 		all_cells = N_ROWS * N_COLS;
@@ -165,6 +209,8 @@ public class Board extends JPanel implements ActionListener{
 				}
 			}
 		}
+
+		inGame = true;
 
 		// Coleta o tempo inicial do jogo
 		beginTime = System.currentTimeMillis();
@@ -307,6 +353,12 @@ public class Board extends JPanel implements ActionListener{
 		@Override
 		public void mousePressed(MouseEvent e) {
 
+			if (!inGame) {
+				newGame();
+				repaint();
+				return;
+			}
+
 			int x = e.getX();
 			int y = e.getY();
 
@@ -314,12 +366,6 @@ public class Board extends JPanel implements ActionListener{
 			int cRow = y / CELL_SIZE;
 
 			boolean rep = false;
-
-
-			if (!inGame) {
-				newGame();
-				repaint();
-			}
 
 
 			if ((x < N_COLS * CELL_SIZE) && (y < N_ROWS * CELL_SIZE)) {

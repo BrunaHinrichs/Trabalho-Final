@@ -7,10 +7,21 @@ import javax.swing.SwingUtilities;
 
 public class Mines extends JFrame {
 
-	private final int FRAME_WIDTH = 250;
-	private final int FRAME_HEIGHT = 290;
+	private static int FRAME_WIDTH = 250;
+	private static int FRAME_HEIGHT = 290;
 
 	private final JLabel statusbar;
+
+	public static void setFrameWidth(int width) {
+
+		FRAME_WIDTH = width;
+
+	}
+	public static void setFrameHeight(int height) {
+
+		FRAME_HEIGHT = height;
+
+	}
 
 	public Mines() {
 
