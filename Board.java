@@ -74,7 +74,6 @@ public class Board extends JPanel implements ActionListener{
 		timer.start();
 
 		addMouseListener(new MinesAdapter());
-		newGame();
 	}
 
 	// atualiza o cronometro acada intervalo de tempo
@@ -84,14 +83,15 @@ public class Board extends JPanel implements ActionListener{
 	
 	}
 
-	private void newGame() {
+	public void newGame() {
 
 		// Antes dequalquer inicializacao, devemos obter o nome do
-		// jogador e o nivel de dificuldade. Isso pode ser feito
-		// com uma pop-up ou na mesma tela, antes de desenhar o
-		// campo.
+		// jogador e o nivel de dificuldade.
 
-		nickname = JOptionPane.showInputDialog(this, "Nickname: ", "Minesweeper", JOptionPane.PLAIN_MESSAGE);
+		nickname = JOptionPane.showInputDialog(this,
+				"Nickname: ",
+				"Minesweeper",
+				JOptionPane.PLAIN_MESSAGE);
 		if(nickname==null){
 
 			System.exit(0);
@@ -100,36 +100,37 @@ public class Board extends JPanel implements ActionListener{
 
 		Object[] levels = {"Beginner", "Intermediate", "Expert"};
 
-		String level = String.valueOf(JOptionPane.showInputDialog(
-														this, "Level: ",
-														"Minesweeper",
-														JOptionPane.PLAIN_MESSAGE,
-														null, levels,
-														levels[0]));
+		String level = String.valueOf(JOptionPane.showInputDialog(this,
+					"Level: ",
+					"Minesweeper",
+					JOptionPane.PLAIN_MESSAGE,
+					null,
+					levels,
+					levels[0]));
 
 		if (level.equals("Beginner")) {
 
 			N_MINES = 10;
 			N_ROWS = 9;
 			N_COLS = 9;
-			Mines.setFrameWidth(145);
-			Mines.setFrameHeight(175);
+			Mines.setFrameWidth(140);
+			Mines.setFrameHeight(170);
 
 		} else if (level.equals("Intermediate")) {
 
 			N_MINES = 40;
 			N_ROWS = 16;
 			N_COLS = 16;
-			Mines.setFrameWidth(250);
-			Mines.setFrameHeight(290);
+			Mines.setFrameWidth(245);
+			Mines.setFrameHeight(280);
 
 		} else if (level.equals("Expert")) {
 
 			N_MINES = 99;
 			N_ROWS = 16;
 			N_COLS = 30;
-			Mines.setFrameWidth(460);
-			Mines.setFrameHeight(290);
+			Mines.setFrameWidth(455);
+			Mines.setFrameHeight(280);
 
 		} else {
 
@@ -137,8 +138,8 @@ public class Board extends JPanel implements ActionListener{
 
 		}
 
-		// Tem que da um resize nesse cara ai... Aceito sugestoes...
-		//Mines.setSize(Mines.FRAME_WIDTH, Mines.FRAME_HEIGHT);
+		if(getTopLevelAncestor()!=null)
+			getTopLevelAncestor().setSize(Mines.getFrameWidth(), Mines.getFrameHeight());
 
 		Random random;
 		int current_col;

@@ -23,6 +23,18 @@ public class Mines extends JFrame {
 
 	}
 
+	public static int getFrameWidth() {
+	
+		return FRAME_WIDTH;
+	
+	}
+
+	public static int getFrameHeight() {
+	
+		return FRAME_HEIGHT;
+	
+	}
+
 	public Mines() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,7 +45,11 @@ public class Mines extends JFrame {
 		statusbar = new JLabel("");
 		add(statusbar, BorderLayout.SOUTH);
 
-		add(new Board(statusbar));
+		Board game = new Board(statusbar);
+
+		add(game);
+
+		game.newGame();
 
 		setResizable(false);
 	}
