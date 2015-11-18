@@ -44,7 +44,7 @@ public class Board extends JPanel implements ActionListener{
 	// regulares de tempo.
 	private final int DELAY = 25;
 	private Timer timer;
-	private long beginTime;
+	private long beginTime=0;
 	private long time;
 
 	private String nickname;
@@ -74,18 +74,25 @@ public class Board extends JPanel implements ActionListener{
 		timer.start();
 
 		addMouseListener(new MinesAdapter());
+		inGame=true;
 	}
 
 	// atualiza o cronometro acada intervalo de tempo
 	public void actionPerformed(ActionEvent e) {
+
+		if(beginTime==0)
+			beginTime=System.currentTimeMillis();
 	
-		time=System.currentTimeMillis()-beginTime;
+		if(inGame){
+			time=System.currentTimeMillis()-beginTime;
+			statusbar.setText(Integer.toString(mines_left) + " - " + (time/1000.0) + "s");
+		}
 	
 	}
 
 	public void newGame() {
 
-		// Antes dequalquer inicializacao, devemos obter o nome do
+		// Antes de qualquer inicializacao, devemos obter o nome do
 		// jogador e o nivel de dificuldade.
 
 		nickname = JOptionPane.showInputDialog(this,
@@ -157,7 +164,7 @@ public class Board extends JPanel implements ActionListener{
 		for (i = 0; i < all_cells; i++)
 			field[i] = COVER_FOR_CELL;
 
-		statusbar.setText(Integer.toString(mines_left));
+		statusbar.setText(Integer.toString(mines_left) + " - " + (time/1000.0) + "s");
 
 		i = 0;
 		while (i < N_MINES) {
@@ -211,10 +218,6 @@ public class Board extends JPanel implements ActionListener{
 			}
 		}
 
-		inGame = true;
-
-		// Coleta o tempo inicial do jogo
-		beginTime = System.currentTimeMillis();
 	}
 
 
@@ -355,9 +358,14 @@ public class Board extends JPanel implements ActionListener{
 		public void mousePressed(MouseEvent e) {
 
 			if (!inGame) {
+
 				newGame();
+				inGame = true;
+				// Coleta o tempo inicial do jogo
+				beginTime = System.currentTimeMillis();
 				repaint();
 				return;
+
 			}
 
 			int x = e.getX();
@@ -380,14 +388,14 @@ public class Board extends JPanel implements ActionListener{
 							if (mines_left > 0) {
 								field[(cRow * N_COLS) + cCol] += MARK_FOR_CELL;
 								mines_left--;
-								statusbar.setText(Integer.toString(mines_left));
+								statusbar.setText(Integer.toString(mines_left) + " - " + (time/1000.0) + "s");
 							} else
 								statusbar.setText("No marks left");
 						} else {
 
 							field[(cRow * N_COLS) + cCol] -= MARK_FOR_CELL;
 							mines_left++;
-							statusbar.setText(Integer.toString(mines_left));
+							statusbar.setText(Integer.toString(mines_left) + " - " + (time/1000.0) + "s");
 						}
 					}
 
