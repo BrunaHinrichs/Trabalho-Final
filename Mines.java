@@ -1,4 +1,6 @@
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
+import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
@@ -36,6 +38,10 @@ public class Mines extends JFrame {
 	}
 
 	public Mines() {
+
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		Image icon = kit.getImage("13.png");
+		setIconImage(icon);
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
