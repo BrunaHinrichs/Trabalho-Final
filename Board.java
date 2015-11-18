@@ -1,3 +1,6 @@
+/**
+    Importações devido ao uso de eventos.
+*/
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -6,16 +9,31 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+/**
+    Importações devido ao uso das interfaces.
+*/
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.JOptionPane;
 
-public class Board extends JPanel implements ActionListener{
+/**
+    Importações devido ao uso de arquivo.
+*/
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 
+public class Board extends JPanel implements ActionListener{
+	
+	File games = new File("Games.dat");
+	
 	private final int NUM_IMAGES = 13;
 	private final int CELL_SIZE = 15;
 
@@ -56,7 +74,9 @@ public class Board extends JPanel implements ActionListener{
 
 	private int all_cells;
 	private JLabel statusbar;
-
+	    
+	//ArrayList de jogadores para definir o ranking
+	ArrayList<Player> ranking = new ArrayList<Player>();
 
 	public Board(JLabel statusbar) {
 
@@ -146,7 +166,9 @@ public class Board extends JPanel implements ActionListener{
 			System.exit(0);
 
 		}
-
+		
+		this.readGames(games);
+		
 		if(getTopLevelAncestor()!=null)
 			getTopLevelAncestor().setSize(Mines.getFrameWidth(), Mines.getFrameHeight());
 
@@ -349,15 +371,21 @@ public class Board extends JPanel implements ActionListener{
 		if (uncover == 0 && inGame) {
 			inGame = false;
 			statusbar.setText("Game won: " + (time/1000.0) + "s");
-/*			JOptionPane.showMessageDialog(
+			addInArrayList(ranking,true);
+			savingGame(ranking,games);
+			/*			
+					JOptionPane.showMessageDialog(
 					this,
 					"Congratulations, " + nickname + "! You won.\n" +
 					"Time:\t\t"+ (time/1000.0) + "s",
 					"You won",
 					JOptionPane.PLAIN_MESSAGE);*/
 
-		} else if (!inGame)
+		} else if (!inGame){
 			statusbar.setText("Game lost: " + (time/1000.0) + "s");
+			addInArrayList(ranking,false);
+			savingGame(ranking,games);
+		}
 
 	}
 
@@ -434,4 +462,49 @@ public class Board extends JPanel implements ActionListener{
 			}
 		}
 	}
+	
+	public void savingGame(ArrayList<Player> list, File arq){
+		try{
+			FileOutputStream fout = new FileOutputStream(arq);
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			
+			//Gravando a lista de jogadores dentro do arquivo.
+			oos.writeObject(list);
+			oos.flush();
+			oos.close();
+			fout.close();
+			JOptionPane.showMessageDialog(this,"Game saved sucess!");
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(this,"Game no saved.");
+		}
+	}
+	
+	public ArrayList<Player> readGames(File arq){
+		ArrayList<Player> list = null;
+		try{
+			FileInputStream fin = new FileInputStream(arq);
+			ObjectInputStream oin = new ObjectInputStream(fin);
+			
+			//Lendo o arquivos dos jogos passados.
+			list = (ArrayList<Player>) oin.readObject();
+			oin.close();
+			fin.close();
+			
+			JOptionPane.showMessageDialog(this,"Game read sucess!");
+		}catch(Exception ex){
+			JOptionPane.showMessageDialog(this,"Game reado insucess!");
+		}
+		
+		return list;
+	}
+	
+	public void addInArrayList(ArrayList<Player> list, boolean win){
+	    if(N_MINES == 10)
+		list.add(new Player(time,nickname,"Beginner",N_MINES - mines_left,win));
+	    
+	    if(N_MINES == 40)
+		list.add(new Player(time,nickname,"Intermediate",N_MINES - mines_left,win));
+	    if(N_MINES == 99)
+		list.add(new Player(time,nickname,"Expert",N_MINES - mines_left,win));
+	}	
 }
