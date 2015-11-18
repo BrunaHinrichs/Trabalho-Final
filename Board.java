@@ -74,20 +74,22 @@ public class Board extends JPanel implements ActionListener{
 		timer.start();
 
 		addMouseListener(new MinesAdapter());
-		inGame=true;
+
+//		inGame=true;
 	}
 
 	// atualiza o cronometro acada intervalo de tempo
 	public void actionPerformed(ActionEvent e) {
 
-		if(beginTime==0)
-			beginTime=System.currentTimeMillis();
-	
+
 		if(inGame){
+			if(beginTime==0)
+				beginTime=System.currentTimeMillis();
+
 			time=System.currentTimeMillis()-beginTime;
 			statusbar.setText(Integer.toString(mines_left) + " - " + (time/1000.0) + "s");
 		}
-	
+
 	}
 
 	public void newGame() {
@@ -218,6 +220,8 @@ public class Board extends JPanel implements ActionListener{
 			}
 		}
 
+		inGame = true;
+
 	}
 
 
@@ -345,6 +349,12 @@ public class Board extends JPanel implements ActionListener{
 		if (uncover == 0 && inGame) {
 			inGame = false;
 			statusbar.setText("Game won: " + (time/1000.0) + "s");
+/*			JOptionPane.showMessageDialog(
+					this,
+					"Congratulations, " + nickname + "! You won.\n" +
+					"Time:\t\t"+ (time/1000.0) + "s",
+					"You won",
+					JOptionPane.PLAIN_MESSAGE);*/
 
 		} else if (!inGame)
 			statusbar.setText("Game lost: " + (time/1000.0) + "s");
