@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JMenuBar;
 
 public class Mines extends JFrame {
 
@@ -13,7 +14,11 @@ public class Mines extends JFrame {
 	private static int FRAME_HEIGHT = 290;
 
 	private final JLabel statusbar;
-
+	private final JMenuBar menuBar;
+	private final JMenu rank;
+	private final JMenuItem vitorias; //Ranking baseado apenas nos jogadores vitoriosos (Mostra por tempo)
+	private final JMenuItem derrotas; //Ranking baseado apenas nos jogadores que não deram sorte (mostra o desempenho)
+	
 	public static void setFrameWidth(int width) {
 
 		FRAME_WIDTH = width;
@@ -47,7 +52,20 @@ public class Mines extends JFrame {
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		setLocationRelativeTo(null);
 		setTitle("Minesweeper");
-
+		
+		//Adicionando o menu 
+		menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		rank = new JMenu("Ranking");
+		menuBar.add(rank);
+		
+		derrotas = new JMenuItem("Derrotas");
+		vitorias = new JMenuItem("Vitorias");
+		
+		rank.add(derrotas);
+		rank.add(vitorias);		
+		
 		statusbar = new JLabel("");
 		add(statusbar, BorderLayout.SOUTH);
 

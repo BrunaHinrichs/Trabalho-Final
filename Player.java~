@@ -38,9 +38,9 @@ public class Player implements Serializable  {
 	
 	public String toString(){
 		if(this.win)
-			return "Nome: "+nickname+"\nDificuldade: "+difficulty+"\nTempo: "+time/1000+"s\n";
+			return "Nome: "+nickname+"\nDificuldade: "+difficulty+"\nTempo: "+time+"\n";
 		else
-			return "Nome: "+nickname+"\nDificuldade: "+difficulty+"\nMinas Desarmadas: "+minesRight+"\n";
+			return "Nome: "+nickname+"\nDificuldade: "+difficulty+"\nMinas Desarmadas: "+time+"\n";
 	}
 	
 }
