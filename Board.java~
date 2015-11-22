@@ -473,9 +473,9 @@ public class Board extends JPanel implements ActionListener{
 			oos.flush();
 			oos.close();
 			fout.close();
-			System.out.println("Game Saved");
+			System.out.println("");
 		}catch(Exception ex){
-			System.out.println("Game no Saved");
+			JOptionPane.showMessageDialog(this,"Game no saved.");
 		}
 	}
 	

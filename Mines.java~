@@ -5,8 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-
 public class Mines extends JFrame {
 
 	private static int FRAME_WIDTH = 250;
