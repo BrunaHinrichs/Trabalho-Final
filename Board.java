@@ -143,7 +143,7 @@ public class Board extends JPanel implements ActionListener{
 			N_ROWS = 9;
 			N_COLS = 9;
 			Mines.setFrameWidth(140);
-			Mines.setFrameHeight(170);
+			Mines.setFrameHeight(195);
 
 		} else if (level.equals("Intermediate")) {
 
@@ -151,7 +151,7 @@ public class Board extends JPanel implements ActionListener{
 			N_ROWS = 16;
 			N_COLS = 16;
 			Mines.setFrameWidth(245);
-			Mines.setFrameHeight(280);
+			Mines.setFrameHeight(297);
 
 		} else if (level.equals("Expert")) {
 
@@ -159,7 +159,7 @@ public class Board extends JPanel implements ActionListener{
 			N_ROWS = 16;
 			N_COLS = 30;
 			Mines.setFrameWidth(455);
-			Mines.setFrameHeight(280);
+			Mines.setFrameHeight(297);
 
 		} else {
 
