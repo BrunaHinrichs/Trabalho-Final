@@ -88,6 +88,7 @@ public class Board extends JPanel implements ActionListener{
 			img[i] = (new ImageIcon(i + ".png")).getImage();
 		}
 
+		setBackground(Color.BLACK);
 		setDoubleBuffered(true);
 
 		timer = new Timer(DELAY, this);
@@ -100,6 +101,7 @@ public class Board extends JPanel implements ActionListener{
 
 	// atualiza o cronometro acada intervalo de tempo
 	public void actionPerformed(ActionEvent e) {
+		setBackground(Color.BLACK);
 
 
 		if(inGame){
