@@ -26,12 +26,10 @@ import javax.swing.JOptionPane;
 */
 import java.io.*;
 import sun.audio.*;
-import java.applet.*;
-import java.net.*;
 
 public class Board extends JPanel implements ActionListener{
 	
-	private final File games = new File("Games.dat");
+	File games = new File("Games.dat");
 	
 	private final int NUM_IMAGES = 13;
 	private final int CELL_SIZE = 15;
@@ -93,8 +91,8 @@ public class Board extends JPanel implements ActionListener{
 		timer.start();
 
 		addMouseListener(new MinesAdapter());
-		
-		//		inGame=true;
+
+//		inGame=true;
 	}
 
 	// atualiza o cronometro acada intervalo de tempo
@@ -321,7 +319,7 @@ public class Board extends JPanel implements ActionListener{
 	}
 
 	@Override
-	public void paintComponent(Graphics g) {
+	public void paintComponent(Graphics g) throws Exception {
 
 		// Nesta funcao podemos usar statusbar.setText() para
 		// escrever o tempo corrido de jogo a cada atualizacao.
@@ -381,7 +379,9 @@ public class Board extends JPanel implements ActionListener{
 					JOptionPane.PLAIN_MESSAGE);*/
 
 		} else if (!inGame){
-			soundLost();
+			InputStream in = new FileInputStream("errow.wav");
+			AudioStream audio = new AudioStream(in);
+			AudioPlayer.player.start(audio);
 			statusbar.setText("Game lost: " + (time/1000.0) + "s");
 			addInArrayList(ranking,false);
 			savingGame(ranking,games);
@@ -507,15 +507,5 @@ public class Board extends JPanel implements ActionListener{
 		list.add(new Player(time,nickname,"Intermediate",N_MINES - mines_left,win));
 	    if(N_MINES == 99)
 		list.add(new Player(time,nickname,"Expert",N_MINES - mines_left,win));
-	}
-	
-	public void soundLost(){
-		try {
-			AudioClip clip = Applet.newAudioClip(new File("errow.wav").toURL());
-			clip.play();
-		} catch (MalformedURLException murle) {
-			System.out.println(murle);
-		}
-		
-	}
+	}	
 }
