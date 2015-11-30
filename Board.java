@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Collections;
 
 /**
     Importações devido ao uso das interfaces.
@@ -163,7 +164,7 @@ public class Board extends JPanel implements ActionListener{
 			Mines.setFrameHeight(300);
 
 		} else {
-
+			this.savingGame(ranking,games);
 			System.exit(0);
 
 		}
@@ -373,7 +374,8 @@ public class Board extends JPanel implements ActionListener{
 			inGame = false;
 			statusbar.setText("Game won: " + (time/1000.0) + "s");
 			addInArrayList(ranking,true);
-			savingGame(ranking,games);
+			Collections.sort(ranking, new PlayerComparatorByTime());
+			System.out.println(ranking);
 			/*			
 					JOptionPane.showMessageDialog(
 					this,
@@ -386,7 +388,9 @@ public class Board extends JPanel implements ActionListener{
 			soundLost();
 			statusbar.setText("Game lost: " + (time/1000.0) + "s");
 			addInArrayList(ranking,false);
-			savingGame(ranking,games);
+			Collections.sort(ranking, new PlayerComparatorByTime());
+			for(Player n: ranking)
+				System.out.println(n.toString());
 		}
 
 	}

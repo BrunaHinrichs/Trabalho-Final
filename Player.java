@@ -1,6 +1,7 @@
 import java.io.Serializable;
+import java.util.Comparator;
 
-public class Player implements Serializable  {
+public class Player implements Serializable{
 
 	private long time;
 	private String nickname;
@@ -37,10 +38,16 @@ public class Player implements Serializable  {
 	}
 	
 	public String toString(){
-		if(this.win)
-			return "Nome: "+nickname+"\nDificuldade: "+difficulty+"\nTempo: "+time/1000+"s\n";
-		else
-			return "Nome: "+nickname+"\nDificuldade: "+difficulty+"\nMinas Desarmadas: "+minesRight+"\n";
+		//if(this.win)
+			return "Nome: "+nickname+"\nDificuldade: "+difficulty+"\nTempo: "+time/1000.0+"s\n";
+	//	else
+		//	return "Nome: "+nickname+"\nDificuldade: "+difficulty+"\nMinas Desarmadas: "+minesRight+"\n";
 	}
-	
+}
+
+class PlayerComparatorByTime implements Comparator<Player>{
+	@Override
+	public int compare(Player o1, Player o2){
+		return (int)(o1.getTime() - o2.getTime());
+	}
 }
